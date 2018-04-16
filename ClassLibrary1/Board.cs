@@ -21,6 +21,7 @@ namespace tsuro
         
         List<SPlayer> onBoard = new List<SPlayer>();
         List<SPlayer> eliminated = new List<SPlayer>();
+
         //board must track the details of players and tiles on a board
         public List<SPlayer> returnEliminated()
         {
@@ -52,7 +53,7 @@ namespace tsuro
             return true;
         }
 
-        public bool checkPlaceTile(SPlayer p, Tile t)
+        public bool checkPlaceTile(List<SPlayer> currentPlayers, SPlayer p, Tile t)
         {
             SPlayer temp = p;
 
@@ -121,40 +122,64 @@ namespace tsuro
                 newTilePosn = t.getLocationEnd(3);
             }
 
+            bool atEdge = false;
             //check if the move will lead the player to the edge
             if (newRow == 0)
             {
                 if (newTilePosn == 0 || newTilePosn == 1)
                 {
-                    return false;
+                    atEdge = true;
                 }
             }
             if (newCol == 0)
             {
                 if (newTilePosn == 6 || newTilePosn == 7)
                 {
-                    return false;
+                    atEdge =  true;
                 }
             }
             if (newCol == 5)
             {
                 if (newTilePosn == 2 || newTilePosn == 3)
                 {
-                    return false;
+                    atEdge = true;
                 }
             }
             if (newRow == 5)
             {
                 if (newTilePosn == 4 || newTilePosn == 5)
                 {
-                    return false;
+                    atEdge = true;
                 }
             }
 
-            //check if player will collide
-            //meaning there is a player in the location we are trying to move to 
+            //if move does not cause player to go to edge, pretend you have placed tile, and move all
+            // other players accordingly
+            bool collide = false;
 
-            return true;
+            if (!atEdge)
+            {
+                //check if player will collide
+                //meaning there is a player in the location we are trying to move to 
+                foreach (SPlayer currp in currentPlayers)
+                {
+                    //newCol, newRow
+                    // for each player, we have their row and col
+                    //first check if there are tiles places around the just placed tile
+
+                    //next move all other players as far as they can
+                    //to edges or to the tile we have just placed
+
+                    //check the endlocations of each path
+                    //see if there is a player at both ends of the endlocations 
+                    //if so set collide to true
+
+
+                }
+            }
+
+
+            return (!atEdge && !collide);
         }
 
         public SPlayer placeTile(SPlayer p, Tile t)

@@ -53,7 +53,7 @@ namespace tsuro
 
         public bool legalPlay(SPlayer p, Board b, Tile t)
         {
-            return (tileInHand(p, t) && b.checkPlaceTile(p,t));
+            return (tileInHand(p, t) && b.checkPlaceTile(b.returnOnBoard(), p,t));
         }
 
         public Tile drawATile()
@@ -79,7 +79,7 @@ namespace tsuro
             }
 
             SPlayer tempPlayer = inGamePlayers[0];
-            bool playWasLegal = b.checkPlaceTile(tempPlayer, t);
+            bool playWasLegal = b.checkPlaceTile(inGamePlayers, tempPlayer, t);
             if (playWasLegal)
             {
                 SPlayer currentPlayer = b.placeTile(tempPlayer, t);
@@ -108,6 +108,8 @@ namespace tsuro
                 }
                 
             }
+
+
             /*pile = drawPile;
             //the tile that has been drawn from the deck
             Tile drawnTile = t;
